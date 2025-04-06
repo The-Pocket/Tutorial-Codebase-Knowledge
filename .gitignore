@@ -19,6 +19,10 @@ __pycache__/
 .env.test
 .env.production
 
+# Python virtual environments
+.venv/
+venv/
+
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
