@@ -17,11 +17,16 @@ file_handler = logging.FileHandler(log_file)
 file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 logger.addHandler(file_handler)
 
-# Simple cache configuration
-cache_file = "llm_cache.json"
+# Cache configuration from environment variables
+cache_file = os.getenv("CACHE_FILE", "llm_cache.json")
+cache_enabled = os.getenv("CACHE_ENABLED", "true").lower() == "true"
 
-# By default, we Google Gemini 2.5 pro, as it shows great performance for code understanding
-def call_llm(prompt: str, use_cache: bool = True) -> str:
+# By default, we use Google Gemini 2.5 pro, as it shows great performance for code understanding
+def call_llm(prompt: str, use_cache: bool = None) -> str:
+    # Determine if cache should be used (parameter overrides environment variable)
+    if use_cache is None:
+        use_cache = cache_enabled
+    
     # Log the prompt
     logger.info(f"PROMPT: {prompt}")
     
@@ -33,55 +38,63 @@ def call_llm(prompt: str, use_cache: bool = True) -> str:
             try:
                 with open(cache_file, 'r') as f:
                     cache = json.load(f)
-            except:
-                logger.warning(f"Failed to load cache, starting with empty cache")
+            except Exception as e:
+                logger.warning(f"Failed to load cache, starting with empty cache: {e}")
         
         # Return from cache if exists
         if prompt in cache:
-            logger.info(f"RESPONSE: {cache[prompt]}")
+            logger.info(f"RESPONSE (cached): {cache[prompt]}")
             return cache[prompt]
     
     # Call the LLM if not in cache or cache disabled
-    client = genai.Client(
-        vertexai=True, 
-        # TODO: change to your own project id and location
-        project=os.getenv("GEMINI_PROJECT_ID", "your-project-id"),
-        location=os.getenv("GEMINI_LOCATION", "us-central1")
-    )
-    # You can comment the previous line and use the AI Studio key instead:
-    # client = genai.Client(
-    #     api_key=os.getenv("GEMINI_API_KEY", "your-api_key"),
-    # )
-    model = os.getenv("GEMINI_MODEL", "gemini-2.5-pro-exp-03-25")
-    response = client.models.generate_content(
-        model=model,
-        contents=[prompt]
-    )
-    response_text = response.text
-    
-    # Log the response
-    logger.info(f"RESPONSE: {response_text}")
-    
-    # Update cache if enabled
-    if use_cache:
-        # Load cache again to avoid overwrites
-        cache = {}
-        if os.path.exists(cache_file):
-            try:
-                with open(cache_file, 'r') as f:
-                    cache = json.load(f)
-            except:
-                pass
+    try:
+        # Check if using API key or Vertex AI
+        api_key = os.getenv("GEMINI_API_KEY")
+        if api_key:
+            # Use API key authentication
+            client = genai.Client(api_key=api_key)
+        else:
+            # Use Vertex AI authentication
+            client = genai.Client(
+                vertexai=True,
+                project=os.getenv("GEMINI_PROJECT_ID", "your-project-id"),
+                location=os.getenv("GEMINI_LOCATION", "us-central1")
+            )
+            
+        model = os.getenv("GEMINI_MODEL", "gemini-2.5-pro-exp-03-25")
+        response = client.models.generate_content(
+            model=model,
+            contents=[prompt]
+        )
+        response_text = response.text
         
-        # Add to cache and save
-        cache[prompt] = response_text
-        try:
-            with open(cache_file, 'w') as f:
-                json.dump(cache, f)
-        except Exception as e:
-            logger.error(f"Failed to save cache: {e}")
+        # Log the response
+        logger.info(f"RESPONSE: {response_text}")
+        
+        # Update cache if enabled
+        if use_cache:
+            # Load cache again to avoid overwrites
+            cache = {}
+            if os.path.exists(cache_file):
+                try:
+                    with open(cache_file, 'r') as f:
+                        cache = json.load(f)
+                except Exception as e:
+                    logger.warning(f"Failed to reload cache: {e}")
+            
+            # Add to cache and save
+            cache[prompt] = response_text
+            try:
+                with open(cache_file, 'w') as f:
+                    json.dump(cache, f)
+            except Exception as e:
+                logger.error(f"Failed to save cache: {e}")
+        
+        return response_text
     
-    return response_text
+    except Exception as e:
+        logger.error(f"Error calling Gemini API: {e}")
+        raise Exception(f"Failed to generate content with Gemini: {e}")
 
 # # Use Anthropic Claude 3.7 Sonnet Extended Thinking
 # def call_llm(prompt, use_cache: bool = True):
