@@ -65,6 +65,29 @@ This is a tutorial project of [Pocket Flow](https://github.com/The-Pocket/Pocket
 
 ## 🚀 Getting Started
 
+### Option 1: Using Docker (Recommended)
+
+1. Clone this repository
+
+2. Configure your environment variables in the `.env` file:
+   ```bash
+   # Copy the sample .env file
+   cp .env.sample .env
+   
+   # Edit the .env file with your credentials
+   # GEMINI_PROJECT_ID=your-project-id
+   # GITHUB_TOKEN=your-github-token
+   ```
+
+3. Run the application using Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
+
+4. Access the Streamlit web interface at http://localhost:8501
+
+### Option 2: Manual Installation
+
 1. Clone this repository
 
 2. Install dependencies: 
@@ -84,22 +107,22 @@ This is a tutorial project of [Pocket Flow](https://github.com/The-Pocket/Pocket
    ```bash
    python utils/call_llm.py
    ```
-
-7. Generate a complete codebase tutorial by running the main script:
-    ```bash
-    # Analyze a GitHub repository
-    python main.py --repo https://github.com/username/repo --include "*.py" "*.js" --exclude "tests/*" --max-size 50000
-
-    # Or, analyze a local directory
-    python main.py --dir /path/to/your/codebase --include "*.py" --exclude "*test*"
-    ```
-    - `--repo` or `--dir` - Specify either a GitHub repo URL or a local directory path (required, mutually exclusive)
-    - `-n, --name` - Project name (optional, derived from URL/directory if omitted)
-    - `-t, --token` - GitHub token (or set GITHUB_TOKEN environment variable)
-    - `-o, --output` - Output directory (default: ./output)
-    - `-i, --include` - Files to include (e.g., "*.py" "*.js")
-    - `-e, --exclude` - Files to exclude (e.g., "tests/*" "docs/*")
-    - `-s, --max-size` - Maximum file size in bytes (default: 100KB)
+4. Run the Streamlit web interface:
+   ```bash
+   streamlit run app.py
+   ```
+   
+   Or generate a complete codebase tutorial directly using the command line:
+   ```bash
+   python main.py https://github.com/username/repo --include "*.py" "*.js" --exclude "tests/*" --max-size 50000
+   ```
+   - `repo_url` - URL of the GitHub repository (required)
+   - `-n, --name` - Project name (optional, derived from URL if omitted)
+   - `-t, --token` - GitHub token (or set GITHUB_TOKEN environment variable)
+   - `-o, --output` - Output directory (default: ./output)
+   - `-i, --include` - Files to include (e.g., "*.py" "*.js")
+   - `-e, --exclude` - Files to exclude (e.g., "tests/*" "docs/*")
+   - `-s, --max-size` - Maximum file size in bytes (default: 100KB)
       
 The application will crawl the repository, analyze the codebase structure, generate tutorial content, and save the output in the specified directory (default: ./output).
 
