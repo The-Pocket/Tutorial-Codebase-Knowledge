@@ -86,6 +86,7 @@ def call_llm(prompt: str, use_cache: bool = True) -> str:
 # # Use Anthropic Claude 3.7 Sonnet Extended Thinking
 # def call_llm(prompt, use_cache: bool = True):
 #     from anthropic import Anthropic, RateLimitError
+#     import time
 #     client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", "your-api-key"))
 #     try:
 #         response = client.messages.create(
