@@ -115,35 +115,31 @@ This is a tutorial project of [Pocket Flow](https://github.com/The-Pocket/Pocket
 
 The application will crawl the repository, analyze the codebase structure, generate tutorial content in the specified language, and save the output in the specified directory (default: ./output).
 
+
 ## 🐳 Run with Docker
 
-You can easily run the application using Docker. Follow these steps:
+1. Navigate to the root directory of the project and build the Docker image:  
+   ```bash
+   docker build -t code2tutorials .
+   ```
 
-1. Build the Docker Image
-Navigate to the root directory of the project and build the Docker image:
-```bash
-docker build -t code2tutorials .
-```
+2. Run the container with the following command:  
+   ```bash
+   docker run -it --rm \
+   -v $(pwd):/app \
+   --env GEMINI_API_KEY=<your-api-key> \
+   code2tutorials --repo https://github.com/username/repo-name
+   ```
 
-2. Run the Docker Container
-Run the container with the following command:
-```bash
-docker run -it --rm \
-  -v $(pwd):/app \
-  --env GEMINI_API_KEY=<your-api-key> \
-  code2tutorials --repo https://github.com/username/repo-name
-```
+3. For easier access, set an alias for the Docker command in your shell configuration file (e.g., `.bashrc` or `.zshrc`):  
+   ```bash
+   alias code2tutorials='docker run -it --rm -v $(pwd):/app --env GEMINI_API_KEY=<your-api-key> code2tutorials'
+   ```
 
-3. Optional: Create a Shell Alias (Linux)
-For easier access, you can set an alias for the Docker command in your shell configuration file (e.g., `.bashrc` or `.zshrc`):
-```bash
-alias code2tutorials='docker run -it --rm -v $(pwd):/app --env GEMINI_API_KEY=<your-api-key> code2tutorials'
-```
-
-After setting the alias, you can run the application with a simplified command:
-```bash
-code2tutorials --repo https://github.com/username/repo-name
-```
+4. After setting the alias, run the application with a simplified command:  
+   ```bash
+   code2tutorials --repo https://github.com/username/repo-name
+   ```
 ## 💡 Development Tutorial
 
 - I built using [**Agentic Coding**](https://zacharyhuang.substack.com/p/agentic-coding-the-most-fun-way-to), the fastest development paradigm, where humans simply [design](docs/design.md) and agents [code](flow.py).
