@@ -2,8 +2,10 @@ FROM python:3.12-alpine AS builder
 ARG APP_NAME=code2tutorials
 
 LABEL org.opencontainers.image.authors="samin-irtiza" \
-    description="A Dockerfile for building and running the ${APP_NAME} application" \
-    version="1.0"
+      org.opencontainers.image.title="${APP_NAME} Builder" \
+      org.opencontainers.image.description="Build layer for the ${APP_NAME} application, which generates tutorials from codebases." \
+      org.opencontainers.image.version="1.0" \
+      org.opencontainers.image.source="https://github.com/The-Pocket/Tutorial-Codebase-Knowledge"
 
 ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
@@ -23,10 +25,11 @@ RUN pyinstaller --onefile --name $APP_NAME main.py
 
 FROM alpine:latest
 ARG APP_NAME=code2tutorials
-
 LABEL org.opencontainers.image.authors="samin-irtiza" \
-    description="A lightweight runtime image for the ${APP_NAME} application" \
-    version="1.0"
+      org.opencontainers.image.title="${APP_NAME}" \
+      org.opencontainers.image.description="Runtime layer for the ${APP_NAME} application, a CLI tool for generating tutorials from codebases." \
+      org.opencontainers.image.version="1.0" \
+      org.opencontainers.image.source="https://github.com/The-Pocket/Tutorial-Codebase-Knowledge"
 
 WORKDIR /app
 
@@ -38,5 +41,5 @@ RUN chmod +x /app/$APP_NAME
 
 ENV APP_NAME=${APP_NAME}
 
-ENTRYPOINT ["/bin/sh", "-c", "/app/$APP_NAME"]
+ENTRYPOINT ["/bin/sh", "-c", "exec /app/$APP_NAME \"$@\"", "--"]
 CMD ["--help"]
