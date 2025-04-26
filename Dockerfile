@@ -1,4 +1,5 @@
 FROM python:3.12-alpine AS builder
+# Executable application name
 ARG APP_NAME=code2tutorials
 
 LABEL org.opencontainers.image.authors="samin-irtiza" \
@@ -24,6 +25,7 @@ COPY . /app
 RUN pyinstaller --onefile --name $APP_NAME main.py
 
 FROM alpine:latest
+# Executable application name
 ARG APP_NAME=code2tutorials
 LABEL org.opencontainers.image.authors="samin-irtiza" \
       org.opencontainers.image.title="${APP_NAME}" \
@@ -39,7 +41,6 @@ RUN apk add --no-cache git
 
 RUN chmod +x /app/$APP_NAME
 
-ENV APP_NAME=${APP_NAME}
-
-ENTRYPOINT ["/bin/sh", "-c", "exec /app/$APP_NAME \"$@\"", "--"]
+# Change the entrypoint according to the executable application name. 
+ENTRYPOINT ["/app/code2tutorials"]
 CMD ["--help"]
