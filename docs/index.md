@@ -20,6 +20,7 @@ This is a tutorial project of [Pocket Flow](https://github.com/The-Pocket/Pocket
 
 ## Example Tutorials for Popular GitHub Repositories
 
+- [AgentDock](./AgentDock/index.md) - Create specialized AI agents with custom personalities, tools, and conversation handling!
 - [AutoGen Core](./AutoGen Core/index.md) - Build AI teams that talk, think, and solve problems together like coworkers!
 - [Browser Use](./Browser Use/index.md) - Let AI surf the web for you, clicking buttons and filling forms like a digital assistant!
 - [Celery](./Celery/index.md) - Supercharge your app with background tasks that run while you sleep!

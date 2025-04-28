@@ -30,6 +30,8 @@ This is a tutorial project of [Pocket Flow](https://github.com/The-Pocket/Pocket
 
 🤯 All these tutorials are generated **entirely by AI** by crawling the GitHub repo!
 
+- [AgentDock](https://the-pocket.github.io/Tutorial-Codebase-Knowledge/AgentDock) - Create specialized AI agents with custom personalities, tools, and conversation handling!
+
 - [AutoGen Core](https://the-pocket.github.io/Tutorial-Codebase-Knowledge/AutoGen%20Core) - Build AI teams that talk, think, and solve problems together like coworkers!
 
 - [Browser Use](https://the-pocket.github.io/Tutorial-Codebase-Knowledge/Browser%20Use) - Let AI surf the web for you, clicking buttons and filling forms like a digital assistant!
