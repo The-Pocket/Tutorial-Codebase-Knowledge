@@ -115,6 +115,49 @@ This is a tutorial project of [Pocket Flow](https://github.com/The-Pocket/Pocket
 
 The application will crawl the repository, analyze the codebase structure, generate tutorial content in the specified language, and save the output in the specified directory (default: ./output).
 
+## 🚀 How to Run This Project
+
+1. **Set up environment variables** (choose one option):
+   
+   Option 1: For Google Gemini (default):
+   ```bash
+   export GEMINI_PROJECT_ID="your-project-id"
+   export GEMINI_LOCATION="us-central1"
+   # OR for AI Studio instead of Vertex AI:
+   export GEMINI_API_KEY="your-api-key"
+   ```
+   
+   Option 2: For Anthropic Claude (uncomment in call_llm.py):
+   ```bash
+   export ANTHROPIC_API_KEY="your-api-key"
+   ```
+   
+   Option 3: For OpenAI O1 (uncomment in call_llm.py):
+   ```bash
+   export OPENAI_API_KEY="your-api-key"
+   ```
+
+2. **Test LLM connection**:
+   ```bash
+   python utils/call_llm.py
+   ```
+
+3. **Generate a tutorial from a GitHub repository**:
+   ```bash
+   python main.py --repo https://github.com/username/repo --include "*.py"
+   ```
+
+4. **Or analyze a local codebase**:
+   ```bash
+   python main.py --dir /path/to/your/code --include "*.py" "*.js"
+   ```
+
+5. **Check the generated output**:
+   ```bash
+   cd output
+   # View the generated tutorial files
+   ```
+
 ## 💡 Development Tutorial
 
 - I built using [**Agentic Coding**](https://zacharyhuang.substack.com/p/agentic-coding-the-most-fun-way-to), the fastest development paradigm, where humans simply [design](docs/design.md) and agents [code](flow.py).
