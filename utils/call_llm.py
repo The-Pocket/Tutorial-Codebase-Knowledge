@@ -48,17 +48,19 @@ def call_llm(prompt: str, use_cache: bool = True) -> str:
             return cache[prompt]
 
     # Call the LLM if not in cache or cache disabled
-    # client = genai.Client(
-    #     vertexai=True,
-    #     # TODO: change to your own project id and location
-    #     project=os.getenv("GEMINI_PROJECT_ID", "your-project-id"),
-    #     location=os.getenv("GEMINI_LOCATION", "us-central1")
-    # )
+    # You can override authentication by setting GEMINI_API_KEY (for API key) or GEMINI_PROJECT_ID/GEMINI_LOCATION (for Vertex AI) via a .env file or OS environment variables.
+    # Authentication: Use API key if GEMINI_API_KEY is set, otherwise use Vertex AI
+    if os.getenv("GEMINI_API_KEY"):
+        client = genai.Client(
+            api_key=os.getenv("GEMINI_API_KEY", ""),
+        )
+    else:
+        client = genai.Client(
+            vertexai=True,
+            project=os.getenv("GEMINI_PROJECT_ID", "your-project-id"),
+            location=os.getenv("GEMINI_LOCATION", "us-central1")
+        )
 
-    # You can comment the previous line and use the AI Studio key instead:
-    client = genai.Client(
-        api_key=os.getenv("GEMINI_API_KEY", ""),
-    )
     # model = os.getenv("GEMINI_MODEL", "gemini-2.5-pro-exp-03-25")
     model = os.getenv("GEMINI_MODEL", "gemini-2.0-flash-exp")
     
