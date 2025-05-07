@@ -1,0 +1,27 @@
+Python version: 3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]
+Python executable: D:\Coding\AustSteelModel\venv\Scripts\python.exe
+Successfully imported pocketflow
+pocketflow path: D:\Coding\AustSteelModel\venv\Lib\site-packages\pocketflow\__init__.py
+
+Attributes of pocketflow:
+- AsyncBatchFlow
+- AsyncBatchNode
+- AsyncFlow
+- AsyncNode
+- AsyncParallelBatchFlow
+- AsyncParallelBatchNode
+- BaseNode
+- BatchFlow
+- BatchNode
+- Flow
+- Node
+- _ConditionalTransition
+- asyncio
+- copy
+- time
+- warnings
+
+Successfully imported Flow from pocketflow
+Flow is: <class 'pocketflow.Flow'>
+
+Done.

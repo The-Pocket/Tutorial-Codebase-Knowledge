@@ -1,0 +1,50 @@
+{
+  "active_provider": "openrouter_llama_scout",
+  "providers": {
+    "gemini": {
+      "api_key_env": "GEMINI_API_KEY",
+      "model_env": "GEMINI_MODEL_PRIMARY",
+      "default_model": "gemini-2.5-flash-preview-04-17",
+      "api_endpoint": "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+    },
+    "openai": {
+      "api_key_env": "OPENAI_API_KEY",
+      "model_env": "OPENAI_MODEL_PRIMARY",
+      "default_model": "gpt-4o-mini",
+      "api_endpoint": "https://api.openai.com/v1/chat/completions"
+    },
+    "anthropic": {
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "model_env": "ANTHROPIC_MODEL_PRIMARY",
+      "default_model": "claude-3-5-haiku-20241022",
+      "api_endpoint": "https://api.anthropic.com/v1/messages",
+      "max_tokens": 21000,
+      "thinking_settings": {
+        "enabled": true,
+        "budget_tokens": 20000
+      }
+    },
+    "openrouter_gemini_flash": {
+      "api_key_env": "OPENROUTER_API_KEY",
+      "model_env": "OPENROUTER_MODEL_GEMINI_FLASH",
+      "default_model": "google/gemini-2.5-flash-preview-04-17",
+      "api_endpoint": "https://openrouter.ai/api/v1/chat/completions"
+    },
+    "openrouter_llama_scout": {
+      "api_key_env": "OPENROUTER_API_KEY",
+      "model_env": "OPENROUTER_MODEL_LLAMA_SCOUT",
+      "default_model": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+      "api_endpoint": "https://openrouter.ai/api/v1/chat/completions"
+    }
+  },
+  "logging": {
+    "log_directory_env": "LOG_DIR",
+    "default_log_directory": "logs",
+    "log_prefix": "llm_calls_"
+  },
+  "caching": {
+    "enabled_env": "LLM_CACHE_ENABLED",
+    "default_enabled": true,
+    "cache_file_name": "llm_cache.json"
+  }
+}

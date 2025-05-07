@@ -71,19 +71,14 @@ Agentic Coding should be a collaboration between Human System Design and Agent I
     - Example utility implementation:
       ```python
       # utils/call_llm.py
-      from openai import OpenAI
-
-      def call_llm(prompt):    
-          client = OpenAI(api_key="YOUR_API_KEY_HERE")
-          r = client.chat.completions.create(
-              model="gpt-4o",
-              messages=[{"role": "user", "content": prompt}]
-          )
-          return r.choices[0].message.content
-          
-      if __name__ == "__main__":
-          prompt = "What is the meaning of life?"
-          print(call_llm(prompt))
+      # This file is now configuration-driven. 
+      # LLM provider, API keys, and model names are managed through
+      # llm_config.json and environment variables.
+      # See the actual utils/call_llm.py for the current implementation.
+      
+      # Example of how it's used in a node:
+      # from utils.call_llm import call_llm
+      # response = call_llm("Your prompt here")
       ```
     - > **Sometimes, design Utilies before Flow:**  For example, for an LLM project to automate a legacy system, the bottleneck will likely be the available interface to that system. Start by designing the hardest utilities for interfacing, and then build the flow around them.
       {: .best-practice }
