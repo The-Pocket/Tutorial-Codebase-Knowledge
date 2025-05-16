@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/the-pocket-pocketflow-tutorial-codebase-knowledge-badge.png)](https://mseep.ai/app/the-pocket-pocketflow-tutorial-codebase-knowledge)
+
 <h1 align="center">Turns Codebase into Easy Tutorial with AI</h1>
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
