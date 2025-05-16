@@ -4,6 +4,10 @@ import logging
 import json
 from datetime import datetime
 
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 # Configure logging
 log_directory = os.getenv("LOG_DIR", "logs")
 os.makedirs(log_directory, exist_ok=True)
@@ -58,7 +62,7 @@ def call_llm(prompt: str, use_cache: bool = True) -> str:
     client = genai.Client(
         api_key=os.getenv("GEMINI_API_KEY", ""),
     )
-    model = os.getenv("GEMINI_MODEL", "gemini-2.5-pro-exp-03-25")
+    model = os.getenv("GEMINI_MODEL", "gemini-2.0-flash") # gemini-2.0-flash  is available in the api but the newer models like gemini-2.5-flash-preview-04-17 are not!!!
     # model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-preview-04-17")
     
     response = client.models.generate_content(model=model, contents=[prompt])
