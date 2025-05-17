@@ -119,19 +119,26 @@ def call_llm(prompt: str, use_cache: bool = True) -> str:
 
 # # Use Anthropic Claude 3.7 Sonnet Extended Thinking
 # def call_llm(prompt, use_cache: bool = True):
-#     from anthropic import Anthropic
+#     from anthropic import Anthropic, RateLimitError
+#     import time
 #     client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", "your-api-key"))
-#     response = client.messages.create(
-#         model="claude-3-7-sonnet-20250219",
-#         max_tokens=21000,
-#         thinking={
-#             "type": "enabled",
-#             "budget_tokens": 20000
-#         },
-#         messages=[
-#             {"role": "user", "content": prompt}
-#         ]
-#     )
+#     try:
+#         response = client.messages.create(
+#             model="claude-3-7-sonnet-20250219",
+#             max_tokens=21000,
+#             thinking={
+#                 "type": "enabled",
+#                 "budget_tokens": 20000
+#             },
+#             messages=[
+#                 {"role": "user", "content": prompt}
+#             ]
+#         )
+#     except RateLimitError:
+#         for i in range(70):
+#             print(f"Rate limit exceeded. Waiting {70-i}s before retrying", end='\r', flush=True)
+#             time.sleep(1)
+#         return call_llm(prompt)
 #     return response.content[1].text
 
 # # Use OpenAI o1
