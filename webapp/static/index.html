@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code to Tutorial Generator</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Generate Codebase Tutorial</h1>
+    <form id="tutorial_form">
+        <div>
+            <label for="repo_url">GitHub Repository URL (required):</label>
+            <input type="text" id="repo_url" name="repo_url" required style="width: 400px;">
+        </div>
+        <div>
+            <label for="project_name">Project Name (optional):</label>
+            <input type="text" id="project_name" name="project_name" style="width: 400px;">
+        </div>
+        <div>
+            <label for="language">Language (optional):</label>
+            <select id="language" name="language">
+                <option value="english" selected>English</option>
+                <option value="chinese">Chinese</option>
+                <!-- Add more languages if supported -->
+            </select>
+        </div>
+        <div>
+            <label for="include_patterns">Include Patterns (optional, comma-separated, e.g., *.py,*.js):</label>
+            <textarea id="include_patterns" name="include_patterns" rows="2" style="width: 400px;" placeholder="*.py, *.js, *.jsx, *.ts, *.tsx, *.go, *.java, *.md, Dockerfile"></textarea>
+        </div>
+        <div>
+            <label for="exclude_patterns">Exclude Patterns (optional, comma-separated, e.g., tests/*,docs/*):</label>
+            <textarea id="exclude_patterns" name="exclude_patterns" rows="2" style="width: 400px;" placeholder="assets/*, data/*, examples/*, tests/*, docs/*, venv/*, .git/*"></textarea>
+        </div>
+        <div>
+            <label for="max_file_size">Max File Size (bytes, optional):</label>
+            <input type="number" id="max_file_size" name="max_file_size" value="100000">
+        </div>
+        <div>
+            <label for="max_abstractions">Max Abstractions (optional):</label>
+            <input type="number" id="max_abstractions" name="max_abstractions" value="10">
+        </div>
+        <div>
+            <label for="use_cache">Use LLM Cache (optional):</label>
+            <input type="checkbox" id="use_cache" name="use_cache" checked>
+        </div>
+        <div>
+            <label for="github_token">GitHub Token (optional, for private repos or rate limits):</label>
+            <input type="password" id="github_token" name="github_token" style="width: 400px;">
+        </div>
+        <button type="submit" id="generate_button">Generate Tutorial</button>
+    </form>
+
+    <div id="status_area">
+        <!-- Status messages and download links will appear here -->
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

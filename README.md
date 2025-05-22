@@ -124,6 +124,46 @@ This is a tutorial project of [Pocket Flow](https://github.com/The-Pocket/Pocket
 
 The application will crawl the repository, analyze the codebase structure, generate tutorial content in the specified language, and save the output in the specified directory (default: ./output).
 
+## 🚀 Using the Web UI
+
+This project also includes a web-based user interface for easier interaction.
+
+### Prerequisites
+
+-   **Python 3.7+**: Ensure you have a compatible Python version installed.
+-   **Dependencies**: Install all required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+-   **LLM API Key**: Ensure you have set your LLM API key as an environment variable. For Gemini, use:
+    ```bash
+    export GEMINI_API_KEY='your_actual_api_key'
+    ```
+    (For Windows, you might use `set GEMINI_API_KEY=your_actual_api_key` in Command Prompt or `$env:GEMINI_API_KEY="your_actual_api_key"` in PowerShell.)
+
+### Running the Web Server
+
+1.  Navigate to the project root directory in your terminal.
+2.  Run the FastAPI server using Uvicorn:
+    ```bash
+    uvicorn webapp.main_web:app --reload
+    ```
+3.  The `--reload` flag is for development and enables auto-reloading on code changes. For production, you might run it without `--reload`.
+4.  Open your browser and go to: `http://127.0.0.1:8000/`
+
+### How to Use
+
+1.  Fill in the GitHub repository URL (required) and any other optional parameters like project name, language, include/exclude patterns, etc., on the web page.
+2.  Click the "Generate Tutorial" button.
+3.  The status area will show "Processing...". Wait for the generation to complete.
+4.  Once ready, a "Tutorial Ready!" message will appear with a download link for the generated tutorial (.zip file).
+
+### Output Files
+
+-   Tutorials generated via the web UI are stored in individual subdirectories within the `web_outputs/` folder in the project root.
+-   LLM responses are cached in `llm_cache.json` (in the project root).
+-   LLM call logs are stored in the `logs/` directory (in the project root).
+
 
 <details>
  

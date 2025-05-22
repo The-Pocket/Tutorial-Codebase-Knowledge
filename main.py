@@ -2,24 +2,11 @@ import dotenv
 import os
 import argparse
 # Import the function that creates the flow
-from flow import create_tutorial_flow
+from webapp.core_runner import generate_tutorial_core # MODIFIED
 
 dotenv.load_dotenv()
 
-# Default file patterns
-DEFAULT_INCLUDE_PATTERNS = {
-    "*.py", "*.js", "*.jsx", "*.ts", "*.tsx", "*.go", "*.java", "*.pyi", "*.pyx",
-    "*.c", "*.cc", "*.cpp", "*.h", "*.md", "*.rst", "Dockerfile",
-    "Makefile", "*.yaml", "*.yml",
-}
-
-DEFAULT_EXCLUDE_PATTERNS = {
-    "assets/*", "data/*", "examples/*", "images/*", "public/*", "static/*", "temp/*",
-    "docs/*", 
-    "venv/*", ".venv/*", "*test*", "tests/*", "docs/*", "examples/*", "v1/*",
-    "dist/*", "build/*", "experimental/*", "deprecated/*", "misc/*", 
-    "legacy/*", ".git/*", ".github/*", ".next/*", ".vscode/*", "obj/*", "bin/*", "node_modules/*", "*.log"
-}
+# Default file patterns are now in core_runner.py
 
 # --- Main Function ---
 def main():
@@ -46,52 +33,28 @@ def main():
     args = parser.parse_args()
 
     # Get GitHub token from argument or environment variable if using repo
-    github_token = None
-    if args.repo:
-        github_token = args.token or os.environ.get('GITHUB_TOKEN')
-        if not github_token:
-            print("Warning: No GitHub token provided. You might hit rate limits for public repositories.")
+    # This logic is now handled within generate_tutorial_core
+    github_token_to_pass = args.token # The core function will check env if this is None
 
-    # Initialize the shared dictionary with inputs
-    shared = {
-        "repo_url": args.repo,
-        "local_dir": args.dir,
-        "project_name": args.name, # Can be None, FetchRepo will derive it
-        "github_token": github_token,
-        "output_dir": args.output, # Base directory for CombineTutorial output
+    # Call the core function
+    final_output_directory = generate_tutorial_core(
+        repo_url=args.repo,
+        local_dir=args.dir,
+        project_name=args.name,
+        github_token=github_token_to_pass,
+        output_dir=args.output,
+        include_patterns=set(args.include) if args.include else None,
+        exclude_patterns=set(args.exclude) if args.exclude else None,
+        max_file_size=args.max_size,
+        language=args.language,
+        use_cache=not args.no_cache,
+        max_abstractions=args.max_abstractions
+    )
 
-        # Add include/exclude patterns and max file size
-        "include_patterns": set(args.include) if args.include else DEFAULT_INCLUDE_PATTERNS,
-        "exclude_patterns": set(args.exclude) if args.exclude else DEFAULT_EXCLUDE_PATTERNS,
-        "max_file_size": args.max_size,
-
-        # Add language for multi-language support
-        "language": args.language,
-        
-        # Add use_cache flag (inverse of no-cache flag)
-        "use_cache": not args.no_cache,
-        
-        # Add max_abstraction_num parameter
-        "max_abstraction_num": args.max_abstractions,
-
-        # Outputs will be populated by the nodes
-        "files": [],
-        "abstractions": [],
-        "relationships": {},
-        "chapter_order": [],
-        "chapters": [],
-        "final_output_dir": None
-    }
-
-    # Display starting message with repository/directory and language
-    print(f"Starting tutorial generation for: {args.repo or args.dir} in {args.language.capitalize()} language")
-    print(f"LLM caching: {'Disabled' if args.no_cache else 'Enabled'}")
-
-    # Create the flow instance
-    tutorial_flow = create_tutorial_flow()
-
-    # Run the flow
-    tutorial_flow.run(shared)
+    if final_output_directory:
+        print(f"CLI run successful. Tutorial generated in: {final_output_directory}")
+    else:
+        print("CLI run completed, but no output directory was reported.")
 
 if __name__ == "__main__":
     main()

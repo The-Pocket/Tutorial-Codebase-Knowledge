@@ -100,6 +100,7 @@ llm_cache.json
 
 # Output files
 output/
+web_outputs/
 
 # uv manage
 pyproject.toml

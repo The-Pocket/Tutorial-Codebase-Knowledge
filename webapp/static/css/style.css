@@ -1,0 +1,27 @@
+body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+h1 { color: #333; text-align: center; }
+form { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 600px; margin: 20px auto; }
+form div { margin-bottom: 15px; }
+label { display: block; margin-bottom: 5px; font-weight: bold; }
+input[type="text"], input[type="number"], input[type="password"], select, textarea {
+    width: calc(100% - 22px); /* Adjust for padding and border */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important */
+}
+textarea { resize: vertical; }
+button {
+    background-color: #007bff; color: white; padding: 10px 15px; border: none;
+    border-radius: 4px; cursor: pointer; font-size: 16px; display: block; width: 100%;
+}
+button:hover { background-color: #0056b3; }
+#status_area {
+    margin-top: 20px; padding: 15px; border-radius: 4px;
+    background-color: #e9ecef; text-align: center;
+    max-width: 600px; margin: 20px auto; box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+#status_area a { color: #007bff; text-decoration: none; font-weight: bold; }
+#status_area a:hover { text-decoration: underline; }
+.error-message { color: red; font-weight: bold; }
+.processing-message { color: #007bff; }
